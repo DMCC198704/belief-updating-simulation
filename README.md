@@ -17,19 +17,35 @@ The system combines Monte Carlo simulation, behavioral modeling, regression anal
 
 ## Core Model
 
-Each agent maintains a belief about a latent true value and updates it iteratively:
+## Belief Updating Process
+
+We model inference as a sequential updating process in which each agent forms and revises an estimate of an unknown latent variable.
+
+At each step, beliefs are updated according to a delta rule:
 
 \[
 \hat{x}_{t+1} = \hat{x}_t + \alpha (e_t - \hat{x}_t)
 \]
 
-Where:
+This can be interpreted as a **prediction error correction mechanism**, where updates are proportional to the discrepancy between expected and observed values.
 
-- \(\hat{x}_t\): current belief
-- \(e_t\): observed evidence
-- \(\alpha\): learning rate (individual-specific)
+### Components
 
-Evidence is sampled from noisy distributions centered around a true latent value.
+- **State estimate (\(\hat{x}_t\))**: current belief about the latent quantity  
+- **Evidence (\(e_t\))**: noisy observation drawn from an external information source  
+- **Learning rate (\(\alpha\))**: governs how strongly new evidence is incorporated  
+
+### Evidence model
+
+Evidence is generated stochastically:
+
+\[
+e_t \sim \mathcal{N}(x^*, \sigma^2)
+\]
+
+where \(x^*\) is the true latent value and \(\sigma^2\) controls signal reliability.
+
+This formulation induces variation in learning dynamics as a function of both **agent-level parameters (\(\alpha\))** and **environmental noise structure (\(\sigma\))**.
 
 ---
 
